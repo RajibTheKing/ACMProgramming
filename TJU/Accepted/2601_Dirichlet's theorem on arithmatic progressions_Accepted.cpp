@@ -1,5 +1,24 @@
-#include<iostream.h>
+#include<iostream>
+#include<sstream>
+#include<string>
+#include<cstdlib>
+#include<vector>
+#include<map>
+#include<queue>
+#include<stack>
+#include<cmath>
+#include<cctype>
+#include<set>
+#include<bitset>
+#include<algorithm>
+#include<list>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 #include<math.h>
+#include<ctype.h>
+using namespace std;
+
 int main()
 {
     while(1)
