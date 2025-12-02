@@ -3,7 +3,8 @@
 
 int main() 
 {
-    std::ifstream input("day01_secret_password_input.txt");
+    // std::ifstream input("day01_secret_password_input_easy.txt");
+    std::ifstream input("day01_secret_password_input_hard.txt");
     std::string line;
     int seq = 50;
     int cnt = 0;
@@ -20,7 +21,7 @@ int main()
             seq += rotate;
         }
 
-        seq = (seq % 100 + 100) % 100;
+        seq = seq % 100;
 
         if (seq == 0)
         {
@@ -33,3 +34,4 @@ int main()
     
     return 0;
 }
+
