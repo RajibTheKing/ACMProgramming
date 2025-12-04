@@ -1,18 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+using namespace std;
 
 int main()
 {
     // std::ifstream input("day03_Lobby_input_easy.txt");
-    std::ifstream input("day03_Lobby_input_hard.txt");
-    std::string line;
+    ifstream input("day03_Lobby_input_hard.txt");
+    string line;
     long long totalJoltage = 0;
 
-    while (std::getline(input, line))
+    while (getline(input, line))
     {
-        std::cout << "Processing line: " << line << std::endl;
-        int numberOfDigits = 12;
+        cout << "Processing line: " << line << endl;
+        const int numberOfDigits = 12;
         char maxDigits[numberOfDigits];
         int maxIndices[numberOfDigits];
 
@@ -43,11 +44,11 @@ int main()
             maxJoltage = (long long) maxJoltage * 10 + (maxDigits[d] - '0');
         }
 
-        std::cout << "maxjoltage: " << maxJoltage << std::endl;
+        cout << "maxjoltage: " << maxJoltage << endl;
         totalJoltage += maxJoltage;
 
     }
-    std::cout << totalJoltage << std::endl;
+    cout << totalJoltage << endl;
     input.close();
     return 0;
 }
