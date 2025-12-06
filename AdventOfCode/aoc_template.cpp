@@ -37,18 +37,18 @@
 using namespace std;
 
 
-int solve_part1(const vector<string>& input_lines)
+long long solve_part1(const vector<string>& input_lines)
 {
     // Implement the logic for part 1 here
-    int result = 0;
+    long long result = 0;
     // ...
     return result;
 }
 
-int solve_part2(const vector<string>& input_lines)
+long long solve_part2(const vector<string>& input_lines)
 {
     // Implement the logic for part 2 here
-    int result = 0;
+    long long result = 0;
     // ...
     return result;
 }
@@ -70,9 +70,9 @@ int main()
             cout << "Processing line: " << line << endl;
             input_lines.push_back(line);
         }
-        int part1_result = solve_part1(input_lines);
+        long long part1_result = solve_part1(input_lines);
         cout << "Part 1 result for test case #" << kase << ": " << part1_result << endl;
-        int part2_result = solve_part2(input_lines);
+        long long part2_result = solve_part2(input_lines);
         cout << "Part 2 result for test case #" << kase << ": " << part2_result << endl;
     }
 }
