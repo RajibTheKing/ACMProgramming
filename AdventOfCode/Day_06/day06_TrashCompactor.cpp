@@ -119,7 +119,6 @@ long long solve_part2(const vector<string>& input_lines)
             {
                 break;
             }
-            cout << "Current Number: " << currentNumber << endl;
 
             if (current_result == -1)
             {
