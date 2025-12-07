@@ -77,8 +77,6 @@ int main()
         vector<string> input_lines;
         while(getline(input, line) && !line.empty())
         {
-            // Process each line of the test case
-            cout << "Processing line: " << line << endl;
             input_lines.push_back(line);
         }
         long long part1_result = solve_part1(input_lines);
