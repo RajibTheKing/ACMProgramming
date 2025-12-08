@@ -50,7 +50,6 @@ vector<string> split(const string& s, char delimiter)
 
 long long solve_part1(const vector<string>& input_lines)
 {
-    // Implement the logic for part 1 here
     long long result = 0;
     // ...
     return result;
@@ -58,7 +57,6 @@ long long solve_part1(const vector<string>& input_lines)
 
 long long solve_part2(const vector<string>& input_lines)
 {
-    // Implement the logic for part 2 here
     long long result = 0;
     // ...
     return result;
