@@ -45,6 +45,83 @@ public:
         : x(x_val), y(y_val), z(z_val) {}
 };
 
+class DSU
+{
+public:
+    DSU(int n) : parent(n), sz(n, 1)
+    {
+        for (int i = 0; i < n; ++i)
+            parent[i] = i;
+    }
+
+    int find(int a)
+    {
+        if (parent[a] != a)
+            parent[a] = find(parent[a]);
+        return parent[a];
+    }
+
+    void unite(int a, int b)
+    {
+        int rootA = find(a);
+        int rootB = find(b);
+        if (rootA != rootB)
+        {
+            if (sz[rootA] < sz[rootB])
+            {
+                parent[rootA] = rootB;
+            }
+            else if (sz[rootA] > sz[rootB])
+            {
+                parent[rootB] = rootA;
+            }
+            else
+            {
+                parent[rootB] = rootA;
+            }
+
+            total = sz[rootA] + sz[rootB];
+            sz[rootA] = total;
+            sz[rootB] = total;
+        }
+    }
+
+    void print_sizes()
+    {
+        for (int i = 0; i < parent.size(); ++i)
+        {
+            cout << "Element: " << i << ", Parent: " << parent[i] << ", Size: " << sz[i] << endl;
+        }
+    }
+
+    vector<long long> get_top_3_sizes()
+    {
+        vector<long long> sizes;
+        set<int> unique_parents;
+        for (int i = 0; i < parent.size(); ++i)
+        {
+            int root = find(i);
+            if (unique_parents.find(root) == unique_parents.end())
+            {
+                unique_parents.insert(root);
+                sizes.push_back(sz[root]);
+            }
+        }
+
+        // Descent sort and get top 3
+        sort(sizes.begin(), sizes.end(), greater<long long>());
+
+        if (sizes.size() > 3)
+            sizes.resize(3);
+        return sizes;
+    }
+
+private:
+    vector<int> parent;
+    vector<int> sz;
+    int total;
+};
+
 vector<string> split(const string& s, char delimiter)
 {
     vector<string> tokens;
@@ -57,85 +134,52 @@ vector<string> split(const string& s, char delimiter)
     return tokens;
 }
 
-double get_distance(Point3D p1, Point3D p2)
+long long sq(long long val)
 {
-    return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2) + pow(p2.z - p1.z, 2));
+    return val * val;
+}
+
+long long get_distance(Point3D p1, Point3D p2)
+{
+    return sq(p1.x - p2.x) + sq(p1.y - p2.y) + sq(p1.z - p2.z);
+}
+
+bool compare_distance(const array<long long, 3>& a, const array<long long, 3>& b)
+{
+    return a[0] < b[0];
 }
 
 long long solve_part1(const vector<Point3D>& points, const int pairs_to_process)
 {
-    long long result = 0;
-    map<int, int> group;
-    group.clear();
-    int group_id = 1;
+    long long result = 1;
+    vector<array<long long, 3> > distances;
 
-    for (int i = 1; i <= pairs_to_process; ++i)
+    for (int i = 0; i< points.size(); ++i)
     {
-        cout << "Processing pair #" << i << endl;
-        int idx1, idx2;
-        double closest_distance = numeric_limits<double>::max();
-
-        for (int a = 0; a < points.size(); ++a)
+        for (int j = i + 1; j < points.size(); ++j)
         {
-            for (int b = 0; b < points.size(); ++b)
-            {
-                if (a == b) continue;
-                if (group.find(a) != group.end() && group.find(b) != group.end() && group[a] == group[b])
-                {
-                    continue; // same group, skip
-                }
-
-                double dist = get_distance(points[a], points[b]);
-                if (dist < closest_distance)
-                {
-                    closest_distance = dist;
-                    idx1 = a;
-                    idx2 = b;
-                }
-            }
-        }
-
-        cout << "Closest distance after iteration " << i << " is " << closest_distance << " between points " << points[idx1].x << "," << points[idx1].y << "," << points[idx1].z << " and " << points[idx2].x << "," << points[idx2].y << "," << points[idx2].z << endl;
-        // Assign groups
-        if (group.find(idx1) == group.end() && group.find(idx2) == group.end())
-        {
-            group[idx1] = group_id;
-            group[idx2] = group_id;
-            group_id++;
-        }
-        else if (group.find(idx1) != group.end() && group.find(idx2) == group.end())
-        {
-            group[idx2] = group[idx1];
-        }
-        else if (group.find(idx1) == group.end() && group.find(idx2) != group.end())
-        {
-            group[idx1] = group[idx2];
-        }
-        else
-        {
-            int old_group = group[idx2];
-            int new_group = group[idx1];
-            for (auto& entry : group)
-            {
-                if (entry.second == old_group)
-                {
-                    entry.second = new_group;
-                }
-            }
+            long long dist = get_distance(points[i], points[j]);
+            distances.push_back({dist, i, j});
         }
     }
+    sort(distances.begin(), distances.end(), compare_distance);
+    DSU dsu(points.size());
+    for (int i = 0; i < pairs_to_process; ++i)
+    {
+        dsu.unite(distances[i][1], distances[i][2]);
+    }
 
-    // iterate through group map
-    int group_count[1000];
-    memset(group_count, 0, sizeof(group_count));
-    for (const auto& entry : group)
+    // dsu.print_sizes();
+
+    cout << "Top 3 sizes: ";
+    vector<long long> top_sizes = dsu.get_top_3_sizes();
+    for (long long size : top_sizes)
     {
-        group_count[entry.second]++;
+        cout << size << " ";
+        result *= size;
     }
-    for (int i = 1; i < pairs_to_process; ++i)
-    {
-       cout << "Group " << i << " has " << group_count[i] << " points." << endl;
-    }
+    cout << endl;
+
     return result;
 }
 
