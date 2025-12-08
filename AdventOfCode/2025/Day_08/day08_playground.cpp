@@ -183,13 +183,39 @@ long long solve_part1(const vector<Point3D>& points, const int pairs_to_process)
     return result;
 }
 
-long long solve_part2(const vector<string>& input_lines)
+long long solve_part2(const vector<Point3D>& points)
 {
-    long long result = 0;
-    // ...
+    long long result = 1;
+    vector<array<long long, 3> > distances;
+
+    for (int i = 0; i< points.size(); ++i)
+    {
+        for (int j = i + 1; j < points.size(); ++j)
+        {
+            long long dist = get_distance(points[i], points[j]);
+            distances.push_back({dist, i, j});
+        }
+    }
+    sort(distances.begin(), distances.end(), compare_distance);
+    DSU dsu(points.size());
+    for (int i = 0; i < distances.size(); ++i)
+    {
+        dsu.unite(distances[i][1], distances[i][2]);
+    }
+
+    dsu.print_sizes();
+
+    cout << "Top 3 sizes: ";
+    vector<long long> top_sizes = dsu.get_top_3_sizes();
+    for (long long size : top_sizes)
+    {
+        cout << size << " ";
+        result *= size;
+    }
+    cout << endl;
+
     return result;
 }
-
 int main()
 {
     ifstream input("input.txt");
@@ -217,9 +243,9 @@ int main()
                 pairs_to_process = stoi(coords[0]);
             }
         }
-        long long part1_result = solve_part1(points, pairs_to_process);
-        cout << "Part 1 result for test case #" << kase << ": " << part1_result << endl;
-        // long long part2_result = solve_part2(input_lines);
-        // cout << "Part 2 result for test case #" << kase << ": " << part2_result << endl;
+        // long long part1_result = solve_part1(points, pairs_to_process);
+        // cout << "Part 1 result for test case #" << kase << ": " << part1_result << endl;
+        long long part2_result = solve_part2(points);
+        cout << "Part 2 result for test case #" << kase << ": " << part2_result << endl;
     }
 }
