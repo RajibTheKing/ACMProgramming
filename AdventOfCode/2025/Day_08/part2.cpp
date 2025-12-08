@@ -1,41 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <utility>
-#include <cmath>
-#include <ctime>
-#include <iomanip>
-#include <stdexcept>
-#include <numeric>
-#include <functional>
-#include <bitset>
-#include <queue>
-#include <stack>
-#include <cstring>
-#include <array>
-#include <tuple>
-#include <regex>
-#include <unordered_map>
-#include <unordered_set>
-#include <limits>
-#include <cctype>
-#include <locale>
-#include <iterator>
-#include <random>
-#include <chrono>
-#include <thread>
-#include <filesystem>
-#include <optional>
-#include <variant>
-#include <memory>
-#include <type_traits>
-using namespace std;
-
 class Point3D
 {
 public:
@@ -149,40 +111,6 @@ bool compare_distance(const array<long long, 3>& a, const array<long long, 3>& b
     return a[0] < b[0];
 }
 
-long long solve_part1(const vector<Point3D>& points, const int pairs_to_process)
-{
-    long long result = 1;
-    vector<array<long long, 3> > distances;
-
-    for (int i = 0; i< points.size(); ++i)
-    {
-        for (int j = i + 1; j < points.size(); ++j)
-        {
-            long long dist = get_distance(points[i], points[j]);
-            distances.push_back({dist, i, j});
-        }
-    }
-    sort(distances.begin(), distances.end(), compare_distance);
-    DSU dsu(points.size());
-    for (int i = 0; i < pairs_to_process; ++i)
-    {
-        dsu.unite(distances[i][1], distances[i][2]);
-    }
-
-    // dsu.print_sizes();
-
-    cout << "Top 3 sizes: ";
-    vector<long long> top_sizes = dsu.get_top_3_sizes();
-    for (long long size : top_sizes)
-    {
-        cout << size << " ";
-        result *= size;
-    }
-    cout << endl;
-
-    return result;
-}
-
 long long solve_part2(const vector<Point3D>& points)
 {
     long long result = 1;
@@ -218,37 +146,4 @@ long long solve_part2(const vector<Point3D>& points)
         }
     }
     return result;
-}
-int main()
-{
-    ifstream input("input.txt");
-    string line;
-    getline(input, line);
-    int testCases = stoi(line);
-    vector<Point3D> points;
-    int pairs_to_process = 0;
-
-    for (int kase = 1; kase <= testCases; ++kase)
-    {
-        cout << "Processing test case #" << kase << endl;
-        points.clear();
-        while(getline(input, line) && !line.empty())
-        {
-            vector<string> coords = split(line, ',');
-            if (coords.size() == 3)
-            {
-                double x = stod(coords[0]);
-                double y = stod(coords[1]);
-                double z = stod(coords[2]);
-                points.emplace_back(x, y, z);
-            }
-            else{
-                pairs_to_process = stoi(coords[0]);
-            }
-        }
-        // long long part1_result = solve_part1(points, pairs_to_process);
-        // cout << "Part 1 result for test case #" << kase << ": " << part1_result << endl;
-        long long part2_result = solve_part2(points);
-        cout << "Part 2 result for test case #" << kase << ": " << part2_result << endl;
-    }
 }
