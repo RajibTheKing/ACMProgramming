@@ -1,39 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <utility>
-#include <cmath>
-#include <ctime>
-#include <iomanip>
-#include <stdexcept>
-#include <numeric>
-#include <functional>
-#include <bitset>
-#include <queue>
-#include <stack>
-#include <cstring>
-#include <array>
-#include <tuple>
-#include <regex>
-#include <unordered_map>
-#include <unordered_set>
-#include <limits>
-#include <cctype>
-#include <locale>
-#include <iterator>
-#include <random>
-#include <chrono>
-#include <thread>
-#include <filesystem>
-#include <optional>
-#include <variant>
-#include <memory>
-#include <type_traits>
+#include <bits/stdc++.h>
 using namespace std;
 
 vector<string> split(const string& s, char delimiter)
