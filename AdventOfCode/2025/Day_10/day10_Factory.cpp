@@ -133,7 +133,6 @@ int main()
             }
 
             long long cur = solve_part2(target_light_state, button, joltage_requirement);
-            cout << "Current result = " << cur << endl;
             sum += cur;
         }
 
