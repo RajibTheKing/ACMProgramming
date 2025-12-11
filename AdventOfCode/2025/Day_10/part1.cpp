@@ -105,7 +105,5 @@ int main()
 
         long long part1_result = sum;
         cout << "Part 1 result for test case #" << kase << ": " << part1_result << endl;
-        // long long part2_result = solve_part2(target_light_state, button, joltage_requirement);
-        // cout << "Part 2 result for test case #" << kase << ": " << part2_result << endl;
     }
 }
